@@ -1,5 +1,6 @@
 package com.mylearning.devplacement.model
 
+// domain model
 data class User (
     var id : String,
     var name : String,
