@@ -41,10 +41,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.usersFragment
             )
         )
-
         // Setting Up ActionBar with Navigation Controller
         setupActionBarWithNavController(navController, appConfiguration)
-
 
     }
 
