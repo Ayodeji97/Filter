@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/carOwnersFragment">
 
+    <fragment
+        android:id="@+id/carOwnersFragment"
+        android:name="com.mylearning.devplacement.CarOwnersFragment"
+        android:label="CarOwnersFragment"
+        tools:layout="@layout/fragment_car_owners"
+        />
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.mylearning.devplacement.UsersFragment"
+        android:label="UsersFragment"
+        tools:layout="@layout/fragment_users"
+        />
 </navigation>
