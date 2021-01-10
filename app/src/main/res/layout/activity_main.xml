@@ -14,4 +14,17 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/off_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
+        app:itemIconTint="@color/primary_color_70"
+        app:itemTextColor="@color/primary_color_70"
+        app:menu="@menu/bottom_nav_menu"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
