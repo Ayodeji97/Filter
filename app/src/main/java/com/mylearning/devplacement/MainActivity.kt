@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mylearning.devplacement.databinding.ActivityMainBinding
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun setUpViews () {
+    private fun setUpViews () {
 
         // find the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
@@ -32,6 +33,9 @@ class MainActivity : AppCompatActivity() {
 
         // setting nav controller with bottom navigation view
         ui.bottomNavView.setupWithNavController(navController)
+
+        // Setting Up ActionBar with Navigation Controller
+        setupActionBarWithNavController(navController)
 
 
     }
