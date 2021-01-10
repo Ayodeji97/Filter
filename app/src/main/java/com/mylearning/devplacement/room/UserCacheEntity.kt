@@ -29,5 +29,4 @@ class UserCacheEntity (
     @ColumnInfo(name = "createAt")
     var date : String
 
-
 )
