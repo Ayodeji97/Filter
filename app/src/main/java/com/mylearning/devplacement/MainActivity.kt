@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.mylearning.devplacement.databinding.ActivityMainBinding
@@ -34,8 +35,15 @@ class MainActivity : AppCompatActivity() {
         // setting nav controller with bottom navigation view
         ui.bottomNavView.setupWithNavController(navController)
 
+        var appConfiguration = AppBarConfiguration(
+            topLevelDestinationIds = setOf(
+                R.id.carOwnersFragment,
+                R.id.usersFragment
+            )
+        )
+
         // Setting Up ActionBar with Navigation Controller
-        setupActionBarWithNavController(navController)
+        setupActionBarWithNavController(navController, appConfiguration)
 
 
     }
