@@ -23,8 +23,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         style="@style/Widget.MaterialComponents.BottomNavigationView"
-        app:itemIconTint="@color/primary_color_70"
-        app:itemTextColor="@color/primary_color_70"
+        app:itemIconTint="@color/bottom_nav_color_selector"
+        app:itemTextColor="@color/bottom_nav_color_selector"
         app:menu="@menu/bottom_nav_menu"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
