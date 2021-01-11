@@ -91,6 +91,12 @@ dependencies {
 
     implementation "com.google.android.material:material:$materialDesignVersion"
 
+    //Timber logging library dependency
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //CSV parser library
+    implementation 'de.siegmar:fastcsv:1.0.3'
+
 
 }
 
