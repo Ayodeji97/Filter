@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mylearning.devplacement.R
+import com.mylearning.devplacement.adapter.UsersAdapter
 import com.mylearning.devplacement.databinding.FragmentUsersBinding
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.DataState
@@ -23,6 +25,8 @@ class UsersFragment : Fragment() {
     private val viewModel : UserViewModel by viewModels ()
 
     private val ui get() = _ui!!
+    var myList = listOf<User>()
+
 
     @ExperimentalCoroutinesApi
     override fun onCreateView(
@@ -32,6 +36,8 @@ class UsersFragment : Fragment() {
         // Inflate the layout for this fragment
        // return inflater.inflate(R.layout.fragment_users, container, false)
         _ui = FragmentUsersBinding.inflate(inflater, container, false)
+
+
 
         subscribeObservers()
         viewModel.setStateEvent(UserViewModel.MainStateEvent.GetUserEvent)
@@ -44,7 +50,13 @@ class UsersFragment : Fragment() {
 
                 is DataState.Success<List<User>>  -> {
                     displayProgressBar(false)
-                    appendUserTitle (dataState.data)
+                    myList = dataState.data
+
+                    val adapter = UsersAdapter(myList)
+                    ui.recyclerView.adapter = adapter
+                    ui.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                    adapter.notifyDataSetChanged()
+                    //appendUserTitle (dataState.data)
                 }
 
                 is DataState.Error -> {
@@ -72,15 +84,15 @@ class UsersFragment : Fragment() {
         ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
-    private fun appendUserTitle(users : List<User>) {
-        val sb = StringBuilder()
-
-        for (user in users) {
-            sb.append(user.colors)
-        }
-
-        ui.text.text = sb.toString()
-    }
+//    private fun appendUserTitle(users : List<User>){
+//        val sb = StringBuilder()
+//
+//        for (user in users) {
+//            sb.append(user.name)
+//        }
+//
+//        ui.text.text = sb.toString()
+//    }
 
 
     override fun onDestroyView() {

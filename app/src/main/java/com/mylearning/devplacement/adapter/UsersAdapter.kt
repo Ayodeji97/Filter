@@ -43,7 +43,9 @@ class UsersAdapter (private val userList : List<User>) : RecyclerView.Adapter<Us
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        var currentItem = userList[position]
+        val currentItem = userList[position]
+
+        holder.bind(currentItem)
 
     }
 
@@ -51,6 +53,3 @@ class UsersAdapter (private val userList : List<User>) : RecyclerView.Adapter<Us
 
 }
 
-interface OnItemClickListener () {
-
-}
