@@ -1,13 +1,19 @@
 package com.mylearning.devplacement.ui.user
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mylearning.devplacement.R
 import com.mylearning.devplacement.adapter.UsersAdapter
 import com.mylearning.devplacement.databinding.FragmentUsersBinding
@@ -16,6 +22,7 @@ import com.mylearning.devplacement.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+private const val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1
 
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
@@ -80,8 +87,58 @@ class UsersFragment : Fragment() {
         }
     }
 
+
+
+    private fun checkPermissionAndStart() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            promptDialogPermission()
+
+        } else {
+            viewModel.checkDataExist()
+            viewModel.grantAccess.value = true
+        }
+
+    }
+
+    private fun promptDialogPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_WRITE_STORAGE
+            )
+        }
+    }
+
     private fun displayProgressBar (isDisplay : Boolean) {
         ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_WRITE_STORAGE -> {
+                if ((grantResults.isNotEmpty() && permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        viewModel.checkDataExist()
+                        viewModel.grantAccess.value = true
+                    }
+                } else {
+                    promptDialogPermission()
+                }
+
+            }
+
+
+        }
     }
 
 //    private fun appendUserTitle(users : List<User>){

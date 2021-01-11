@@ -97,6 +97,9 @@ dependencies {
     //CSV parser library
     implementation 'de.siegmar:fastcsv:1.0.3'
 
+    //Download manager dependency
+    implementation 'com.mindorks.android:prdownloader:0.6.0'
+
 
 }
 

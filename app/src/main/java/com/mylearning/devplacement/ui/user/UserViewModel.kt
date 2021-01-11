@@ -4,6 +4,8 @@ import android.os.Environment
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.downloader.OnDownloadListener
+import com.downloader.PRDownloader
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.repository.MainRepository
 import com.mylearning.devplacement.utils.DataState
@@ -13,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
 class UserViewModel @ViewModelInject constructor
@@ -67,6 +70,47 @@ class UserViewModel @ViewModelInject constructor
                 }
             }
         }
+    }
+
+    fun checkDataExist() {
+        if (!absoluteFile.exists()) {
+            _startDialogDownload.value = false
+            startDownload()
+        }
+    }
+
+    // download
+    private fun startDownload(): Int {
+        if (!file.exists()) file.mkdir()
+        return PRDownloader.download(
+            Utility.DOWNLOAD_URL,
+            file.absolutePath,
+            CAR_OWNER_DATA
+        )
+            .build()
+            .setOnStartOrResumeListener {
+                Timber.i("Started")
+            }
+            .setOnPauseListener {
+                Timber.i("Paused")
+            }
+            .setOnCancelListener {
+                Timber.i("Cancelled")
+            }
+            .setOnProgressListener { }
+            .start(object : OnDownloadListener {
+                override fun onDownloadComplete() {
+                    _completeDownload.value = true
+                    grantAccess.value = true
+                    Timber.i("Completed")
+                }
+
+                override fun onError(error: com.downloader.Error?) {
+                    Timber.e(error?.serverErrorMessage)
+                    _completeDownload.value = true
+
+                }
+            })
     }
 
 
