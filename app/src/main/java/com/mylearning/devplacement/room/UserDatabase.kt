@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.ColorConverters
-import com.mylearning.devplacement.utils.CountriesConverters
+
 import kotlinx.coroutines.CoroutineScope
 
 @Database(entities = arrayOf(UserCacheEntity::class), version = 1)
@@ -18,8 +18,6 @@ abstract class UserDatabase : RoomDatabase () {
 
     companion object {
        var DATEBASE_NAME = "Data"
-
-
 
         }
 

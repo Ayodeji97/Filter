@@ -39,37 +39,37 @@ class ColorConverters {
 
 }
 
-class CountriesConverters {
-
-    @TypeConverter
-    fun toCountries(value: String?): Colors {
-        if (value == null || value.isEmpty()) {
-            return Colors()
-        }
-
-        val list: List<String> = value.split(",")
-        val longList = ArrayList<String>()
-        for (item in list) {
-            if (!item.isEmpty()) {
-                longList.add(item.toString())
-            }
-        }
-        return Colors(longList)
-    }
-
-    @TypeConverter
-    fun toString(categories: Countries?): String {
-
-        var string = ""
-
-        if (categories == null) {
-            return string
-        }
-
-        categories.countries.forEach {
-            string += "$it,"
-        }
-        return string
-    }
-
-}
+//class CountriesConverters {
+//
+//    @TypeConverter
+//    fun toCountries(value: String?): Colors {
+//        if (value == null || value.isEmpty()) {
+//            return Colors()
+//        }
+//
+//        val list: List<String> = value.split(",")
+//        val longList = ArrayList<String>()
+//        for (item in list) {
+//            if (!item.isEmpty()) {
+//                longList.add(item.toString())
+//            }
+//        }
+//        return Colors(longList)
+//    }
+//
+//    @TypeConverter
+//    fun toString(categories: Countries?): String {
+//
+//        var string = ""
+//
+//        if (categories == null) {
+//            return string
+//        }
+//
+//        categories.countries.forEach {
+//            string += "$it,"
+//        }
+//        return string
+//    }
+//
+//}
