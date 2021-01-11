@@ -12,6 +12,7 @@ import com.mylearning.devplacement.databinding.FragmentUsersBinding
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.DataState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 
 @AndroidEntryPoint
@@ -23,6 +24,7 @@ class UsersFragment : Fragment() {
 
     private val ui get() = _ui!!
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,26 +32,29 @@ class UsersFragment : Fragment() {
         // Inflate the layout for this fragment
        // return inflater.inflate(R.layout.fragment_users, container, false)
         _ui = FragmentUsersBinding.inflate(inflater, container, false)
+
+        subscribeObservers()
+        viewModel.setStateEvent(UserViewModel.MainStateEvent.GetUserEvent)
         return ui.root
     }
 
     private fun subscribeObservers () {
-        viewModel.dataState.observe(this, Observer { dataState ->
+        viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
 
                 is DataState.Success<List<User>>  -> {
-//                    displayProgressBar(false)
-//                    appendBlogTitles(dataState.data)
+                    displayProgressBar(false)
+                    appendUserTitle (dataState.data)
                 }
 
                 is DataState.Error -> {
-//                    displayProgressBar(false)
-//                    displayError(dataState.exception.message)
+                    displayProgressBar(false)
+                    displayErrorMessage (dataState.exception.message)
 
                 }
 
                 is DataState.Loading -> {
-//                    displayProgressBar(true)
+                    displayProgressBar(true)
                 }
             }
         })
@@ -57,14 +62,24 @@ class UsersFragment : Fragment() {
 
     private fun displayErrorMessage (message : String?) {
         if (message != null) {
-
+            ui.text.text = message
         } else {
-
+            ui.text.text = "Unknown Error"
         }
     }
 
     private fun displayProgressBar (isDisplay : Boolean) {
+        ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
+    }
 
+    private fun appendUserTitle(users : List<User>) {
+        val sb = StringBuilder()
+
+        for (user in users) {
+            sb.append(user.colors)
+        }
+
+        ui.text.text = sb.toString()
     }
 
 

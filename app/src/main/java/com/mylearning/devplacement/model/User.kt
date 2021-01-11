@@ -1,12 +1,14 @@
 package com.mylearning.devplacement.model
 
+import com.mylearning.devplacement.room.Colors
+
 // domain model
-data class User (
-    var id : String,
-    var name : String,
-    var image : String,
-    var gender : String,
-    var countries : List<String>,
-    var colors : List<String>,
-    var date : String
+data class User(
+        var id: String,
+        var name: String,
+        var image: String,
+        var gender: String,
+        var countries: Colors,
+        var colors: Colors,
+        var date: String
     )

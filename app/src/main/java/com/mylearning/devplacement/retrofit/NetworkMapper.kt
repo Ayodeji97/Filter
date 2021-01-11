@@ -1,6 +1,7 @@
 package com.mylearning.devplacement.retrofit
 
 import com.mylearning.devplacement.model.User
+import com.mylearning.devplacement.room.Colors
 import com.mylearning.devplacement.utils.EntityMapper
 import javax.inject.Inject
 
@@ -11,13 +12,16 @@ import javax.inject.Inject
 class NetworkMapper @Inject constructor() : EntityMapper<UserNetworkEntity, User> {
 
     override fun mapFromEntity(entity: UserNetworkEntity): User {
+
+        val ent = Colors(entity.colors)
+
         return User(
             id = entity.id,
             name = entity.name,
             image = entity.image,
             gender = entity.gender,
-            colors = entity.colors,
-            countries = entity.countries,
+            colors = Colors(entity.colors),
+            countries = Colors(entity.countries),
             date = entity.date
 
         )
@@ -30,8 +34,8 @@ class NetworkMapper @Inject constructor() : EntityMapper<UserNetworkEntity, User
             name = domainModel.name,
             image = domainModel.image,
             gender = domainModel.gender,
-            countries = domainModel.countries,
-            colors = domainModel.colors,
+            countries = domainModel.countries.colors,
+            colors = domainModel.colors.colors,
             date = domainModel.date
         )
 

@@ -31,7 +31,7 @@ class MainRepository  constructor(
 
             // retrieve all the user object
             val cachedUsers = userDao.getUsers()
-            // emit to the ui
+             //emit to the ui
             emit(DataState.Success(cacheMapper.mapFromEntityList(cachedUsers)))
         } catch (e : Exception) {
             emit(DataState.Error(e))

@@ -1,11 +1,11 @@
 package com.mylearning.devplacement.room
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.mylearning.devplacement.utils.ColorConverters
+import com.mylearning.devplacement.utils.CountriesConverters
 
-@Entity(tableName = "accounts")
-class UserCacheEntity (
+@Entity (tableName = "accounts")
+data class UserCacheEntity (
 
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
@@ -20,11 +20,11 @@ class UserCacheEntity (
     @ColumnInfo(name = "gender")
     var gender : String,
 
-    @ColumnInfo(name = "colors")
-    var colors : List<String>,
+    @TypeConverters(ColorConverters::class)
+    @ColumnInfo(name = "colors")  var colors : Colors,
 
-    @ColumnInfo(name = "countries")
-    var countries : List<String>,
+    @TypeConverters(ColorConverters::class)
+    @ColumnInfo(name = "countries") var countries : Colors,
 
     @ColumnInfo(name = "createAt")
     var date : String
