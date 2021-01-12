@@ -1,10 +1,11 @@
-package com.mylearning.devplacement
+package com.mylearning.devplacement.ui.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.mylearning.devplacement.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

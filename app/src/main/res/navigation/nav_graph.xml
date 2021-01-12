@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/carOwnersFragment"
-        android:name="com.mylearning.devplacement.CarOwnersFragment"
+        android:name="com.mylearning.devplacement.ui.carowner.CarOwnersFragment"
         android:label="Car Owners"
         tools:layout="@layout/fragment_car_owners"
         />
