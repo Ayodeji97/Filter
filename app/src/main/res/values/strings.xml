@@ -13,4 +13,14 @@
     <string name="job_str">Job</string>
     <string name="email_str">Email:</string>
     <string name="bio_str">Bio:</string>
+    <string name="user_details_str">User Details</string>
+    <string name="john_doe_str">John Doe</string>
+    <string name="male_str">Male</string>
+    <string name="user_details_title_str">User details</string>
+    <string name="back_arrow_description">back arrow to user screen</string>
+    <string name="joseph_mary_str">Joseph Mary</string>
+    <string name="date_created_str">O1-Mar-2020</string>
+    <string name="female_str">Female</string>
+    <string name="color_all_str">Color(s)</string>
+    <string name="colors_str">green, red, yellow</string>
 </resources>
