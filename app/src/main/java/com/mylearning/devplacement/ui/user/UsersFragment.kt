@@ -13,12 +13,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.downloader.PRDownloader
+import com.downloader.PRDownloaderConfig
 import com.google.android.material.snackbar.Snackbar
 import com.mylearning.devplacement.R
 import com.mylearning.devplacement.adapter.UsersAdapter
 import com.mylearning.devplacement.databinding.FragmentUsersBinding
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.DataState
+import com.mylearning.devplacement.utils.NetworkCheck
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -28,6 +31,8 @@ private const val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1
 class UsersFragment : Fragment() {
     private val TAG : String = "AppDebug"
     private var _ui : FragmentUsersBinding? = null
+
+
 
     private val viewModel : UserViewModel by viewModels ()
 
@@ -44,6 +49,10 @@ class UsersFragment : Fragment() {
        // return inflater.inflate(R.layout.fragment_users, container, false)
         _ui = FragmentUsersBinding.inflate(inflater, container, false)
 
+
+        checkPermissionAndStart()
+        val config = PRDownloaderConfig.newBuilder().setDatabaseEnabled(true).build()
+        PRDownloader.initialize(context, config)
 
 
         subscribeObservers()
@@ -87,14 +96,17 @@ class UsersFragment : Fragment() {
         }
     }
 
+    private fun displayProgressBar (isDisplay : Boolean) {
+        ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
+    }
 
 
     private fun checkPermissionAndStart() {
         if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            != PackageManager.PERMISSION_GRANTED
+                        requireContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+                != PackageManager.PERMISSION_GRANTED
         ) {
             promptDialogPermission()
 
@@ -105,17 +117,14 @@ class UsersFragment : Fragment() {
 
     }
 
+
     private fun promptDialogPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_WRITE_STORAGE
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    MY_PERMISSIONS_REQUEST_WRITE_STORAGE
             )
         }
-    }
-
-    private fun displayProgressBar (isDisplay : Boolean) {
-        ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
     override fun onRequestPermissionsResult(
