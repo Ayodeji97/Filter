@@ -150,15 +150,6 @@ class UsersFragment : Fragment() {
         }
     }
 
-//    private fun appendUserTitle(users : List<User>){
-//        val sb = StringBuilder()
-//
-//        for (user in users) {
-//            sb.append(user.name)
-//        }
-//
-//        ui.text.text = sb.toString()
-//    }
 
 
     override fun onDestroyView() {
