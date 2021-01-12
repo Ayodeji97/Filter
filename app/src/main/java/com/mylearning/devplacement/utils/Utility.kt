@@ -3,8 +3,8 @@ package com.mylearning.devplacement.utils
 object Utility {
 
     const val FOLDER = "owners"
-    const val DOWNLOAD_URL = "https://drive.google.com/file/d/1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm/view"
-    const val CAR_OWNER_DATA = "car_owners_data.csv"
+    const val DOWNLOAD_URL = "https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download"
+    const val CAR_OWNER_DATA = "car_ownsers_data.csv"
 
     object CSVHeader {
         const val ID: Int = 0

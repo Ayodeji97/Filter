@@ -4,12 +4,14 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,9 +23,11 @@ import com.mylearning.devplacement.adapter.UsersAdapter
 import com.mylearning.devplacement.databinding.FragmentUsersBinding
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.DataState
-import com.mylearning.devplacement.utils.NetworkCheck
+import com.mylearning.devplacement.utils.ProgressDialog
+import com.mylearning.devplacement.utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import timber.log.Timber
 
 private const val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1
 
@@ -33,6 +37,7 @@ class UsersFragment : Fragment() {
     private var _ui : FragmentUsersBinding? = null
 
 
+    private lateinit var loadingDialog: ProgressDialog
 
     private val viewModel : UserViewModel by viewModels ()
 
@@ -50,6 +55,13 @@ class UsersFragment : Fragment() {
         _ui = FragmentUsersBinding.inflate(inflater, container, false)
 
 
+
+        //Check if network is available
+        if (context?.let { isNetworkAvailable(it) } == true) {
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show()
+        }
+
+
         checkPermissionAndStart()
         val config = PRDownloaderConfig.newBuilder().setDatabaseEnabled(true).build()
         PRDownloader.initialize(context, config)
@@ -57,6 +69,26 @@ class UsersFragment : Fragment() {
 
         subscribeObservers()
         viewModel.setStateEvent(UserViewModel.MainStateEvent.GetUserEvent)
+
+
+        // observe list download
+        viewModel.startDialogDownload.observe(requireActivity(), Observer { isDownloading ->
+            if(!isDownloading) {
+                loadingDialog = context?.let { ProgressDialog(it) }!!
+                loadingDialog.showDialog()
+            }
+
+        })
+
+        // observe when file is completely downloaded
+        viewModel.completeDownload.observe(requireActivity(), Observer { isCompleted ->
+            isCompleted?.let { result ->
+                if (result) {
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+
         return ui.root
     }
 
@@ -96,11 +128,13 @@ class UsersFragment : Fragment() {
         }
     }
 
+    // u can change this to animation
     private fun displayProgressBar (isDisplay : Boolean) {
         ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
 
+    // check for permission
     private fun checkPermissionAndStart() {
         if (ContextCompat.checkSelfPermission(
                         requireContext(),
@@ -111,11 +145,13 @@ class UsersFragment : Fragment() {
             promptDialogPermission()
 
         } else {
+            println("CHECKINGDATAEXIST")
             viewModel.checkDataExist()
             viewModel.grantAccess.value = true
         }
 
     }
+
 
 
     private fun promptDialogPermission() {
@@ -150,7 +186,12 @@ class UsersFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+       Log.d("SEEE", "see all")
+        viewModel.checkDataExist()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -2,10 +2,10 @@ package com.mylearning.devplacement.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.fragment.app.Fragment
 
-class NetworkCheck {
 
-    fun isNetworkAvailable(context: Context): Boolean? {
+fun Fragment.isNetworkAvailable(context: Context): Boolean? {
 
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
@@ -20,4 +20,3 @@ class NetworkCheck {
         }
         return false
     }
-}

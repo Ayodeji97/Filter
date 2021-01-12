@@ -1,6 +1,7 @@
 package com.mylearning.devplacement.ui.user
 
 import android.os.Environment
+import android.util.Log
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -73,14 +74,19 @@ class UserViewModel @ViewModelInject constructor
     }
 
     fun checkDataExist() {
+        Log.i("TAG","CHECKINGONE")
+        println("CHECKINGONE")
         if (!absoluteFile.exists()) {
+            println("CHECKING")
             _startDialogDownload.value = false
             startDownload()
         }
     }
 
+
     // download
     private fun startDownload(): Int {
+        Timber.i("Started")
         if (!file.exists()) file.mkdir()
         return PRDownloader.download(
             Utility.DOWNLOAD_URL,
@@ -90,6 +96,8 @@ class UserViewModel @ViewModelInject constructor
             .build()
             .setOnStartOrResumeListener {
                 Timber.i("Started")
+                println(file)
+                println(file.exists())
             }
             .setOnPauseListener {
                 Timber.i("Paused")
@@ -100,12 +108,15 @@ class UserViewModel @ViewModelInject constructor
             .setOnProgressListener { }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
+                    Timber.i("Completed")
                     _completeDownload.value = true
                     grantAccess.value = true
-                    Timber.i("Completed")
+                    println(file)
                 }
 
                 override fun onError(error: com.downloader.Error?) {
+                    Timber.i("Not Completed")
+                    println(file.exists())
                     Timber.e(error?.serverErrorMessage)
                     _completeDownload.value = true
 

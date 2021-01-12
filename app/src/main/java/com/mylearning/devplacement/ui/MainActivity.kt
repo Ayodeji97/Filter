@@ -39,8 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         var appConfiguration = AppBarConfiguration(
             topLevelDestinationIds = setOf(
-                R.id.carOwnersFragment,
-                R.id.usersFragment
+                    R.id.usersFragment,
+                    R.id.carOwnersFragment
+
             )
         )
         // Setting Up ActionBar with Navigation Controller
