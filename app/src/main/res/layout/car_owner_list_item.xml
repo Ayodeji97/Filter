@@ -19,20 +19,32 @@
             android:id="@+id/car_owner_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/car_owner_name_tv"
+            android:id="@+id/car_owner_first_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
             app:layout_constraintHorizontal_bias="0.596"
             app:layout_constraintStart_toEndOf="@+id/car_owner_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Joseph winners" />
+            tools:text="Joseph" />
+
+
+        <TextView
+            android:id="@+id/car_owner_last_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/car_owner_first_name_tv"
+            app:layout_constraintStart_toEndOf="@+id/car_owner_first_name_tv"
+            app:layout_constraintTop_toTopOf="@+id/car_owner_first_name_tv"
+            tools:text="Winner" />
 
         <TextView
             android:id="@+id/car_owner_brand_name_title_tv"
@@ -41,7 +53,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toEndOf="@+id/car_owner_image"
-            app:layout_constraintTop_toBottomOf="@+id/car_owner_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/car_owner_first_name_tv"
             android:text="@string/brand_str" />
 
         <TextView
