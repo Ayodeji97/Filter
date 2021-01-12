@@ -2,7 +2,7 @@ package com.mylearning.devplacement.room
 
 import androidx.room.*
 import com.mylearning.devplacement.utils.ColorConverters
-import com.mylearning.devplacement.utils.CountriesConverters
+
 
 @Entity (tableName = "accounts")
 data class UserCacheEntity (
