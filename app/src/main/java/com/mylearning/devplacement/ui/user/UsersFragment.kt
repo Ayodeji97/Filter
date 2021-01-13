@@ -199,6 +199,14 @@ class UsersFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(user: User) {
         val action = UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(user)
         findNavController().navigate(action)
+
+
+
+    }
+
+    override fun onFilterIconClick(user: User) {
+        val filterIcon = UsersFragmentDirections.actionUsersFragmentToCarOwnersFragment(user)
+        findNavController().navigate(filterIcon)
     }
 
 

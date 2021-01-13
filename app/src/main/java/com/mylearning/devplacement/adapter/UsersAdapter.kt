@@ -25,6 +25,17 @@ class UsersAdapter (private val userList : List<User>, private val listener: OnI
                 }
                 //listener.onItemClick()
             }
+
+            binding.userFilterList.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = userList[position]
+
+                    if (item != null) {
+                        listener.onFilterIconClick(item)
+                    }
+                }
+            }
         }
 
         fun bind (user: User) {
@@ -73,5 +84,7 @@ class UsersAdapter (private val userList : List<User>, private val listener: OnI
 interface OnItemClickListener  {
 
     fun onItemClick (user: User)
+
+    fun onFilterIconClick (user: User)
 }
 

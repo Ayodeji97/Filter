@@ -81,7 +81,7 @@ object FilterManager {
         // algorithm to filter
         withContext(Dispatchers.IO) {
 
-            for (i in 0..carOwnerList.size) {
+            for (i in 0 until carOwnerList.size) {
 
                 if ((user.gender.capitalize() == carOwnerList[i].gender.capitalize()) || user.gender.isEmpty()) {
 

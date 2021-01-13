@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.mylearning.devplacement.model.User
 
 
-class CarOwnersViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
+class CarOwnersViewModelFactory(private val data: User, private val context: Context) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CarOwnerViewModel::class.java)) {
-            return CarOwnerViewModel(context) as T
+            return CarOwnerViewModel(data, context) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

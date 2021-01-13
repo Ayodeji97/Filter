@@ -14,7 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
 
-class CarOwnerViewModel(private val context: Context) : ViewModel() {
+class CarOwnerViewModel(private val data: User, private val context: Context) : ViewModel() {
 
     private fun getCsv(): File {
         return FileDownloader.readCsv(context)
@@ -41,10 +41,10 @@ class CarOwnerViewModel(private val context: Context) : ViewModel() {
             viewScope.launch {
                 val fileList = FilterManager.readFile(getCsv())
 
-                _filterResult.value = fileList
+               // _filterResult.value = fileList
 //
 //                println(fileList)
-//                 _filterResult.value = filterManager.filterItem(fileList, data)
+               _filterResult.value = FilterManager.filterItem(fileList, data)
             }
 
             _isDatabaseAvailable.value = true

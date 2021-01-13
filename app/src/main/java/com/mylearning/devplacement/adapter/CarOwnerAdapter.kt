@@ -7,7 +7,7 @@ import com.mylearning.devplacement.R
 import com.mylearning.devplacement.databinding.CarOwnerListItemBinding
 import com.mylearning.devplacement.model.CarOwner
 
-class CarOwnerAdapter (private val carList : List<CarOwner>) : RecyclerView.Adapter <CarOwnerAdapter.CarOwnerViewHolder> () {
+class CarOwnerAdapter (private var carList : List<CarOwner>) : RecyclerView.Adapter <CarOwnerAdapter.CarOwnerViewHolder> () {
 
     class CarOwnerViewHolder private constructor (private val binding: CarOwnerListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -46,4 +46,9 @@ class CarOwnerAdapter (private val carList : List<CarOwner>) : RecyclerView.Adap
     }
 
     override fun getItemCount() = carList.size
+
+    fun setCarList (carOwner: MutableList<CarOwner>){
+        this.carList = carOwner
+        notifyDataSetChanged()
+    }
 }

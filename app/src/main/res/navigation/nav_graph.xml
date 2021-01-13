@@ -10,7 +10,11 @@
         android:name="com.mylearning.devplacement.ui.carowner.CarOwnersFragment"
         android:label="Car Owners"
         tools:layout="@layout/fragment_car_owners"
-        />
+        >
+        <argument
+            android:name="filter"
+            app:argType="com.mylearning.devplacement.model.User" />
+    </fragment>
     <fragment
         android:id="@+id/usersFragment"
         android:name="com.mylearning.devplacement.ui.user.UsersFragment"
@@ -20,6 +24,9 @@
         <action
             android:id="@+id/action_usersFragment_to_userDetailsFragment"
             app:destination="@id/userDetailsFragment" />
+        <action
+            android:id="@+id/action_usersFragment_to_carOwnersFragment"
+            app:destination="@id/carOwnersFragment" />
     </fragment>
     <fragment
         android:id="@+id/userDetailsFragment"
