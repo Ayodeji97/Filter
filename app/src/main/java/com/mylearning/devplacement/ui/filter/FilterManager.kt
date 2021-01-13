@@ -70,6 +70,16 @@ class FilterManager {
         return result
     }
 
+    suspend fun filterItem (carOwnerList: CarOwnerList, user: User) : CarOwnerList {
+
+        var filterResult = CarOwnerList()
+
+        // algorithm to filter
+
+        return filterResult
+
+    }
+
 
 
 }

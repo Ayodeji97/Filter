@@ -24,4 +24,5 @@
     <string name="color_all_str">Color(s)</string>
     <string name="colors_str">green, red, yellow</string>
     <string name="download_data_str">Downloading neccessary data...</string>
+    <string name="countries_str">Countries</string>
 </resources>
