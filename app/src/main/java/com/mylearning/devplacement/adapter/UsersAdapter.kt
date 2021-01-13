@@ -31,7 +31,7 @@ class UsersAdapter (private val userList : List<User>, private val listener: OnI
             binding.apply {
 
                 userNameTv.text = user.name
-                userDateCreatedTv.text = user.date
+                userDateCreatedTv.text = user.date.substring(5,16)
 
 
                 Glide.with(itemView)

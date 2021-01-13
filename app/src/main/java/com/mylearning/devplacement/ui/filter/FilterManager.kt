@@ -1,5 +1,6 @@
 package com.mylearning.devplacement.ui.filter
 
+import android.annotation.SuppressLint
 import android.location.Criteria
 import com.mylearning.devplacement.R
 import com.mylearning.devplacement.model.CarOwner
@@ -27,7 +28,7 @@ import java.io.FileReader
 
 /* Class responsible for IO operation*/
 
-class FilterManager {
+object FilterManager {
 
     suspend fun readFile (absoluteFile : File) : CarOwnerList {
 
@@ -67,14 +68,52 @@ class FilterManager {
             }
         }
 
+
+
         return result
     }
 
+
+    @SuppressLint("DefaultLocale")
     suspend fun filterItem (carOwnerList: CarOwnerList, user: User) : CarOwnerList {
 
         var filterResult = CarOwnerList()
-
         // algorithm to filter
+        withContext(Dispatchers.IO) {
+
+            for (i in 0..carOwnerList.size) {
+
+                if ((user.gender.capitalize() == carOwnerList[i].gender.capitalize()) || user.gender.isEmpty()) {
+
+                    if (user.countries.colors.map { it.capitalize() }.contains(carOwnerList[i].country.capitalize())
+                        || user.countries.colors.isEmpty()) {
+
+                        if (user.colors.colors.map { it.capitalize() }.contains(carOwnerList[i].carColor.capitalize())
+                            || user.colors.colors.isEmpty()) {
+
+                            filterResult.add(
+                                CarOwner(
+                                    carOwnerList[i].id,
+                                    R.drawable.car,
+                                    carOwnerList[i].firstName,
+                                    carOwnerList[i].lastName,
+                                    carOwnerList[i].email,
+                                    carOwnerList[i].country,
+                                    carOwnerList[i].carModel,
+                                    carOwnerList[i].year,
+                                    carOwnerList[i].carColor,
+                                    carOwnerList[i].gender,
+                                    carOwnerList[i].jobTitle,
+                                    carOwnerList[i].bio
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
+        }
+
 
         return filterResult
 

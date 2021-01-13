@@ -1,10 +1,7 @@
 package com.mylearning.devplacement.ui.user
 
-import android.app.Activity
 import android.content.Context
 import android.os.Environment
-import android.util.Log
-import android.widget.Toast
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -13,6 +10,7 @@ import com.downloader.PRDownloader
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.repository.MainRepository
 import com.mylearning.devplacement.utils.DataState
+import com.mylearning.devplacement.utils.FileDownloader
 import com.mylearning.devplacement.utils.Utility
 import com.mylearning.devplacement.utils.Utility.CAR_OWNER_DATA
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,10 +19,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.net.HttpURLConnection
-import java.net.URL
 
 class UserViewModel @ViewModelInject constructor
     (private val mainRepository: MainRepository,
@@ -81,13 +75,15 @@ class UserViewModel @ViewModelInject constructor
     }
 
     fun checkDataExist(context: Context) {
-        Log.i("TAG","CHECKINGONE")
-        println("CHECKINGONE")
-        if (!absoluteFile.exists()) {
-            println("CHECKING")
-            _startDialogDownload.value = false
-            startDownload(context)
-        }
+      FileDownloader.downloadCsv(Utility.DOWNLOAD_URL, context)
+//        Log.i("TAG","CHECKINGONE")
+//        println("CHECKINGONE")
+//        if (!absoluteFile.exists()) {
+//            println("CHECKING")
+//            _startDialogDownload.value = false
+//
+////            startDownload(context)
+//        }
     }
 
 
@@ -95,9 +91,10 @@ class UserViewModel @ViewModelInject constructor
 
    //  download
     private fun startDownload(context: Context): Int {
-       var filePath =  Environment.getExternalStorageDirectory().getAbsolutePath();
+       var filePath =  Environment.getExternalStorageDirectory().absolutePath;
         Timber.i("Started")
         if (!file.exists()) file.mkdir()
+
         return PRDownloader.download(
             Utility.DOWNLOAD_URL,
             filePath,

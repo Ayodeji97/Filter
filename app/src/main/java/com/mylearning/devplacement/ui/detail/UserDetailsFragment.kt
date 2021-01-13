@@ -41,7 +41,7 @@ class UserDetailsFragment : Fragment() {
 
 
             ui.userDetailNameTv.text = user.name
-            ui.userDetailDateCreateTv.text = user.date
+            ui.userDetailDateCreateTv.text = user.date.substring(5, 16)
             ui.detailCardCountryTv.text = user.countries.toString()
             ui.detailCardColorTv.text = user.countries.toString()
 
