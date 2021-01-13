@@ -1,9 +1,11 @@
 package com.mylearning.devplacement.ui.user
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +30,11 @@ import com.mylearning.devplacement.utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import timber.log.Timber
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 private const val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1
 
@@ -147,6 +154,9 @@ class UsersFragment : Fragment() {
         } else {
             println("CHECKINGDATAEXIST")
             viewModel.checkDataExist()
+//            startDownload("https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download",
+//                requireActivity()
+//            )
             viewModel.grantAccess.value = true
         }
 
@@ -173,7 +183,11 @@ class UsersFragment : Fragment() {
             MY_PERMISSIONS_REQUEST_WRITE_STORAGE -> {
                 if ((grantResults.isNotEmpty() && permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        viewModel.checkDataExist()
+                        Log.i("SEEE", "Called")
+//                        startDownload("https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download",
+//                            requireActivity()
+//                        )
+                       viewModel.checkDataExist()
                         viewModel.grantAccess.value = true
                     }
                 } else {
@@ -185,6 +199,7 @@ class UsersFragment : Fragment() {
 
         }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -200,3 +215,50 @@ class UsersFragment : Fragment() {
 
 
 }
+
+
+
+//    fun startDownload(
+//        url: String,
+//        activity: Activity
+//    ) {
+//        Thread {
+//            val fileUrl = URL(url)
+//            val connection = fileUrl.openConnection() as HttpURLConnection
+//            connection.doInput = true
+//            try {
+//                connection.connect()
+//                val inputStream = connection.inputStream
+//                val extStorageDirectory = activity.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+//                val child = "CARS_OWNERS_.csv"
+//                val outFile = File(extStorageDirectory, child)
+//                val outputStream = FileOutputStream(outFile)
+//                try {
+//                    outputStream.use { output ->
+//                        val buffer = ByteArray(4 * 1024)
+//                        var byteCount = inputStream.read(buffer)
+//                        while (byteCount > 0) {
+//                            output.write(buffer, 0, byteCount)
+//                            byteCount = inputStream.read(buffer)
+//                        }
+//                        output.flush()
+//                        output.close()
+//                    }
+//                    activity.runOnUiThread {
+//                        Toast.makeText(activity, "SUCCESS", Toast.LENGTH_SHORT).show()
+//
+//                        Log.i("Suce", "Successsss")
+//                    }
+//                } catch (e: FileNotFoundException) {
+//                    activity.runOnUiThread {
+//                        Toast.makeText(activity, e.message.toString(), Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//            } catch (e: Exception) {
+//                activity.runOnUiThread {
+//                    Toast.makeText(activity, "Exception caught", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }.start()
+//    }

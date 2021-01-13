@@ -1,7 +1,9 @@
 package com.mylearning.devplacement.ui.user
 
+import android.app.Activity
 import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -18,6 +20,10 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class UserViewModel @ViewModelInject constructor
     (private val mainRepository: MainRepository,
@@ -84,7 +90,9 @@ class UserViewModel @ViewModelInject constructor
     }
 
 
-    // download
+
+
+   //  download
     private fun startDownload(): Int {
         Timber.i("Started")
         if (!file.exists()) file.mkdir()
@@ -119,7 +127,13 @@ class UserViewModel @ViewModelInject constructor
                     println(file.exists())
                     Timber.e(error?.serverErrorMessage)
                     _completeDownload.value = true
-
+                    if (error != null) {
+                        print(error.serverErrorMessage)
+                        println(error.isServerError)
+                        println(error.isConnectionError)
+                        println(error.connectionException)
+                        println(error.responseCode)
+                    }
                 }
             })
     }
