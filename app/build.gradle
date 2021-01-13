@@ -97,6 +97,12 @@ dependencies {
     //CSV parser library
     implementation 'de.siegmar:fastcsv:1.0.3'
 
+    // Circular image library
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Animation dependency
+    implementation 'com.airbnb.android:lottie:3.3.1'
+
     //Download manager dependency
     implementation 'com.mindorks.android:prdownloader:0.6.0'
 

@@ -20,7 +20,7 @@ class MainRepository  constructor(
 
     suspend fun getUser () : Flow<DataState<List<User>>> = flow {
         emit(DataState.Loading)
-        delay(1000)
+        //delay(1000)
 
         try {
             val networkUsers = userRetrofit.getUsers()

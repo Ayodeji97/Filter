@@ -1,5 +1,6 @@
 package com.mylearning.devplacement.ui.user
 
+import android.content.Context
 import android.os.Environment
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -9,6 +10,7 @@ import com.downloader.PRDownloader
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.repository.MainRepository
 import com.mylearning.devplacement.utils.DataState
+import com.mylearning.devplacement.utils.FileDownloader
 import com.mylearning.devplacement.utils.Utility
 import com.mylearning.devplacement.utils.Utility.CAR_OWNER_DATA
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -72,24 +74,37 @@ class UserViewModel @ViewModelInject constructor
         }
     }
 
-    fun checkDataExist() {
-        if (!absoluteFile.exists()) {
-            _startDialogDownload.value = false
-            startDownload()
-        }
+    fun checkDataExist(context: Context) {
+      FileDownloader.downloadCsv(Utility.DOWNLOAD_URL, context)
+//        Log.i("TAG","CHECKINGONE")
+//        println("CHECKINGONE")
+//        if (!absoluteFile.exists()) {
+//            println("CHECKING")
+//            _startDialogDownload.value = false
+//
+////            startDownload(context)
+//        }
     }
 
-    // download
-    private fun startDownload(): Int {
+
+
+
+   //  download
+    private fun startDownload(context: Context): Int {
+       var filePath =  Environment.getExternalStorageDirectory().absolutePath;
+        Timber.i("Started")
         if (!file.exists()) file.mkdir()
+
         return PRDownloader.download(
             Utility.DOWNLOAD_URL,
-            file.absolutePath,
+            filePath,
             CAR_OWNER_DATA
         )
             .build()
             .setOnStartOrResumeListener {
                 Timber.i("Started")
+                println(file)
+                println(file.exists())
             }
             .setOnPauseListener {
                 Timber.i("Paused")
@@ -100,15 +115,24 @@ class UserViewModel @ViewModelInject constructor
             .setOnProgressListener { }
             .start(object : OnDownloadListener {
                 override fun onDownloadComplete() {
+                    Timber.i("Completed")
                     _completeDownload.value = true
                     grantAccess.value = true
-                    Timber.i("Completed")
+                    println(file)
                 }
 
                 override fun onError(error: com.downloader.Error?) {
+                    Timber.i("Not Completed")
+                    println(file.exists())
                     Timber.e(error?.serverErrorMessage)
                     _completeDownload.value = true
-
+                    if (error != null) {
+//                        print(error.serverErrorMessage)
+//                        println(error.isServerError)
+//                        println(error.isConnectionError)
+//                        println(error.connectionException)
+                       // println(error.responseCode)
+                    }
                 }
             })
     }

@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     private fun setUpViews () {
 
         // find the nav controller
@@ -39,8 +43,9 @@ class MainActivity : AppCompatActivity() {
 
         var appConfiguration = AppBarConfiguration(
             topLevelDestinationIds = setOf(
-                R.id.carOwnersFragment,
-                R.id.usersFragment
+                    R.id.usersFragment,
+                    R.id.carOwnersFragment
+
             )
         )
         // Setting Up ActionBar with Navigation Controller
