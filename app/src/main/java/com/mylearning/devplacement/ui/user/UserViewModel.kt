@@ -1,6 +1,7 @@
 package com.mylearning.devplacement.ui.user
 
 import android.app.Activity
+import android.content.Context
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
@@ -79,13 +80,13 @@ class UserViewModel @ViewModelInject constructor
         }
     }
 
-    fun checkDataExist() {
+    fun checkDataExist(context: Context) {
         Log.i("TAG","CHECKINGONE")
         println("CHECKINGONE")
         if (!absoluteFile.exists()) {
             println("CHECKING")
             _startDialogDownload.value = false
-            startDownload()
+            startDownload(context)
         }
     }
 
@@ -93,12 +94,13 @@ class UserViewModel @ViewModelInject constructor
 
 
    //  download
-    private fun startDownload(): Int {
+    private fun startDownload(context: Context): Int {
+       var filePath =  Environment.getExternalStorageDirectory().getAbsolutePath();
         Timber.i("Started")
         if (!file.exists()) file.mkdir()
         return PRDownloader.download(
             Utility.DOWNLOAD_URL,
-            file.absolutePath,
+            filePath,
             CAR_OWNER_DATA
         )
             .build()
@@ -128,11 +130,11 @@ class UserViewModel @ViewModelInject constructor
                     Timber.e(error?.serverErrorMessage)
                     _completeDownload.value = true
                     if (error != null) {
-                        print(error.serverErrorMessage)
-                        println(error.isServerError)
-                        println(error.isConnectionError)
-                        println(error.connectionException)
-                        println(error.responseCode)
+//                        print(error.serverErrorMessage)
+//                        println(error.isServerError)
+//                        println(error.isConnectionError)
+//                        println(error.connectionException)
+                       // println(error.responseCode)
                     }
                 }
             })

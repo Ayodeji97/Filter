@@ -16,11 +16,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.downloader.PRDownloader
 import com.downloader.PRDownloaderConfig
 import com.google.android.material.snackbar.Snackbar
 import com.mylearning.devplacement.R
+import com.mylearning.devplacement.adapter.OnItemClickListener
 import com.mylearning.devplacement.adapter.UsersAdapter
 import com.mylearning.devplacement.databinding.FragmentUsersBinding
 import com.mylearning.devplacement.model.User
@@ -39,7 +41,7 @@ import java.net.URL
 private const val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1
 
 @AndroidEntryPoint
-class UsersFragment : Fragment() {
+class UsersFragment : Fragment(), OnItemClickListener {
     private val TAG : String = "AppDebug"
     private var _ui : FragmentUsersBinding? = null
 
@@ -70,7 +72,7 @@ class UsersFragment : Fragment() {
 
 
         checkPermissionAndStart()
-        val config = PRDownloaderConfig.newBuilder().setDatabaseEnabled(true).build()
+        val config = PRDownloaderConfig.newBuilder().setDatabaseEnabled(true).setReadTimeout(30_000).setConnectTimeout(30_000).build()
         PRDownloader.initialize(context, config)
 
 
@@ -107,7 +109,7 @@ class UsersFragment : Fragment() {
                     displayProgressBar(false)
                     myList = dataState.data
 
-                    val adapter = UsersAdapter(myList)
+                    val adapter = UsersAdapter(myList, this)
                     ui.recyclerView.adapter = adapter
                     ui.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     adapter.notifyDataSetChanged()
@@ -153,7 +155,7 @@ class UsersFragment : Fragment() {
 
         } else {
             println("CHECKINGDATAEXIST")
-            viewModel.checkDataExist()
+            context?.let { viewModel.checkDataExist(it) }
 //            startDownload("https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download",
 //                requireActivity()
 //            )
@@ -187,7 +189,7 @@ class UsersFragment : Fragment() {
 //                        startDownload("https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download",
 //                            requireActivity()
 //                        )
-                       viewModel.checkDataExist()
+                        context?.let { viewModel.checkDataExist(it) }
                         viewModel.grantAccess.value = true
                     }
                 } else {
@@ -205,12 +207,17 @@ class UsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
        Log.d("SEEE", "see all")
-        viewModel.checkDataExist()
+        context?.let { viewModel.checkDataExist(it) }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _ui = null
+    }
+
+    override fun onItemClick(user: User) {
+        val action = UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(user)
+        findNavController().navigate(action)
     }
 
 

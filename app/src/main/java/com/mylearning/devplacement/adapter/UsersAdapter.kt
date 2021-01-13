@@ -9,9 +9,23 @@ import com.mylearning.devplacement.R
 import com.mylearning.devplacement.databinding.UserItemListBinding
 import com.mylearning.devplacement.model.User
 
-class UsersAdapter (private val userList : List<User>) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
+class UsersAdapter (private val userList : List<User>, private val listener: OnItemClickListener ) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
-    class UserViewHolder private constructor(private val binding: UserItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+   inner class UserViewHolder (private val binding: UserItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = userList[position]
+
+                    if(item != null) {
+                       listener.onItemClick(item)
+                    }
+                }
+                //listener.onItemClick()
+            }
+        }
 
         fun bind (user: User) {
             binding.apply {
@@ -29,21 +43,24 @@ class UsersAdapter (private val userList : List<User>) : RecyclerView.Adapter<Us
             }
         }
 
-        companion object {
-            fun from (parent: ViewGroup) : UserViewHolder {
-                val binding = UserItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return UserViewHolder(binding)
-            }
-        }
+//        companion object {
+//            fun from (parent: ViewGroup) : UserViewHolder {
+//                val binding = UserItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//                return UserViewHolder(binding)
+//            }
+//        }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        return UserViewHolder.from(parent)
+       // return UserViewHolder.from(parent)
+        val binding = UserItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return UserViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentItem = userList[position]
+
 
         holder.bind(currentItem)
 
@@ -51,5 +68,10 @@ class UsersAdapter (private val userList : List<User>) : RecyclerView.Adapter<Us
 
     override fun getItemCount() = userList.size
 
+}
+
+interface OnItemClickListener  {
+
+    fun onItemClick (user: User)
 }
 
