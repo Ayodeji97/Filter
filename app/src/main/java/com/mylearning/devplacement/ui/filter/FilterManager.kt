@@ -83,13 +83,13 @@ object FilterManager {
 
             for (i in 0 until carOwnerList.size) {
 
-                if ((user.gender.capitalize() == carOwnerList[i].gender.capitalize()) || user.gender.isEmpty()) {
+                if ((user.gender!!.capitalize() == carOwnerList[i].gender.capitalize()) || user.gender!!.isEmpty()) {
 
-                    if (user.countries.colors.map { it.capitalize() }.contains(carOwnerList[i].country.capitalize())
-                        || user.countries.colors.isEmpty()) {
+                    if (user.countries!!.colors.map { it.capitalize() }.contains(carOwnerList[i].country.capitalize())
+                        || user.countries!!.colors.isEmpty()) {
 
-                        if (user.colors.colors.map { it.capitalize() }.contains(carOwnerList[i].carColor.capitalize())
-                            || user.colors.colors.isEmpty()) {
+                        if (user.colors!!.colors.map { it.capitalize() }.contains(carOwnerList[i].carColor.capitalize())
+                            || user.colors!!.colors.isEmpty()) {
 
                             filterResult.add(
                                 CarOwner(

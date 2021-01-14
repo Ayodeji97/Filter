@@ -10,27 +10,27 @@ data class UserNetworkEntity(
 
     @SerializedName("fullName")
     @Expose
-    var name: String,
+    var name: String?,
 
     @SerializedName("avatar")
     @Expose
-    var image: String,
+    var image: String?,
 
     @SerializedName("gender")
     @Expose
-    var gender: String,
+    var gender: String?,
 
     @SerializedName("countries")
     @Expose
-    var countries: List<String>,
+    var countries: List<String>?,
 
     @SerializedName("colors")
     @Expose
-    var colors: List<String>,
+    var colors: List<String>?,
 
     @SerializedName("createdAt")
     @Expose
-    var date: String,
+    var date: String?,
 
 
     )

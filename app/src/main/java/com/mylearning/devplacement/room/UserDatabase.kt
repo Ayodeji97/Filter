@@ -10,7 +10,7 @@ import com.mylearning.devplacement.utils.ColorConverters
 
 import kotlinx.coroutines.CoroutineScope
 
-@Database(entities = arrayOf(UserCacheEntity::class), version = 1)
+@Database(entities = arrayOf(UserCacheEntity::class), version = 1, exportSchema = false)
 @TypeConverters(*arrayOf(ColorConverters::class))
 abstract class UserDatabase : RoomDatabase () {
 
