@@ -2,36 +2,35 @@ package com.mylearning.devplacement.retrofit
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.mylearning.devplacement.room.Colors
 
-data class UserNetworkEntity  (
-        @SerializedName("id")
+data class UserNetworkEntity(
+    @SerializedName("id")
     @Expose
-    var id : String,
+    var id: String,
 
-        @SerializedName("fullName")
+    @SerializedName("fullName")
     @Expose
-    var name : String,
+    var name: String,
 
-        @SerializedName("avatar")
+    @SerializedName("avatar")
     @Expose
-    var image : String,
+    var image: String,
 
-        @SerializedName("gender")
+    @SerializedName("gender")
     @Expose
-    var gender : String,
+    var gender: String,
 
-        @SerializedName("countries")
+    @SerializedName("countries")
     @Expose
-    var countries : List<String>,
+    var countries: List<String>,
 
-        @SerializedName("colors")
+    @SerializedName("colors")
     @Expose
-    var colors : List<String>,
+    var colors: List<String>,
 
-        @SerializedName("createdAt")
+    @SerializedName("createdAt")
     @Expose
-    var date : String,
+    var date: String,
 
 
-        )
+    )
