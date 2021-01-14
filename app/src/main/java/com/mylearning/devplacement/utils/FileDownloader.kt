@@ -15,7 +15,6 @@ import java.net.URL
 object FileDownloader {
 
 
-
     fun downloadCsv(
             fileUrl: String,
             context: Context

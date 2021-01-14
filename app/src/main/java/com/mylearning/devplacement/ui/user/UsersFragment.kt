@@ -95,6 +95,8 @@ class UsersFragment : Fragment(), OnItemClickListener {
                     displayProgressBar(false)
                     displayErrorMessage(dataState.exception.message)
 
+                    println("ERROR MESSAGE")
+
                 }
 
                 is DataState.Loading -> {

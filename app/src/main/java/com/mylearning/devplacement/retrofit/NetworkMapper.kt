@@ -13,15 +13,15 @@ class NetworkMapper @Inject constructor() : EntityMapper<UserNetworkEntity, User
 
     override fun mapFromEntity(entity: UserNetworkEntity): User {
 
-        val ent = Colors(entity.colors)
+        val ent = entity.colors?.let { Colors(it) }
 
         return User(
             id = entity.id,
             name = entity.name,
             image = entity.image,
             gender = entity.gender,
-            colors = Colors(entity.colors),
-            countries = Colors(entity.countries),
+            colors = entity.colors?.let { Colors(it) },
+            countries = entity.countries?.let { Colors(it) },
             date = entity.date
 
         )
@@ -34,8 +34,8 @@ class NetworkMapper @Inject constructor() : EntityMapper<UserNetworkEntity, User
             name = domainModel.name,
             image = domainModel.image,
             gender = domainModel.gender,
-            countries = domainModel.countries.colors,
-            colors = domainModel.colors.colors,
+            countries = domainModel.countries?.colors,
+            colors = domainModel.colors?.colors,
             date = domainModel.date
         )
 

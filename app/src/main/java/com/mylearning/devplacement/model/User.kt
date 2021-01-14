@@ -8,10 +8,10 @@ import java.io.Serializable
 
 data class User(
         var id: String,
-        var name: String,
-        var image: String,
-        var gender: String,
-        var countries: Colors,
-        var colors: Colors,
-        var date: String
+        var name: String?,
+        var image: String?,
+        var gender: String?,
+        var countries: Colors?,
+        var colors: Colors?,
+        var date: String?
     ) : Serializable
