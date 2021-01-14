@@ -114,7 +114,6 @@ object FilterManager {
 
         }
 
-
         return filterResult
 
     }

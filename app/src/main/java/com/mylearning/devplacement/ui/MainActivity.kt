@@ -38,16 +38,18 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.findNavController()
 
+        var appConfiguration = AppBarConfiguration(navController.graph)
+
         // setting nav controller with bottom navigation view
-        ui.bottomNavView.setupWithNavController(navController)
+       // ui.bottomNavView.setupWithNavController(navController)
 
-        var appConfiguration = AppBarConfiguration(
-            topLevelDestinationIds = setOf(
-                    R.id.usersFragment,
-                    R.id.carOwnersFragment
-
-            )
-        )
+//        var appConfiguration = AppBarConfiguration(
+//            topLevelDestinationIds = setOf(
+//                    R.id.usersFragment,
+//                    R.id.carOwnersFragment
+//
+//            )
+//        )
         // Setting Up ActionBar with Navigation Controller
         setupActionBarWithNavController(navController, appConfiguration)
 

@@ -25,4 +25,7 @@
     <string name="colors_str">green, red, yellow</string>
     <string name="download_data_str">Downloading neccessary data...</string>
     <string name="countries_str">Countries</string>
+    <string name="filter_title_str">Filter</string>
+    <string name="network_failure_str">Ooops...check your network connection</string>
+    <string name="retry_str">Retry</string>
 </resources>

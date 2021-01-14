@@ -19,9 +19,7 @@ import com.mylearning.devplacement.adapter.OnItemClickListener
 import com.mylearning.devplacement.adapter.UsersAdapter
 import com.mylearning.devplacement.databinding.FragmentUsersBinding
 import com.mylearning.devplacement.model.User
-import com.mylearning.devplacement.utils.DataState
-import com.mylearning.devplacement.utils.ProgressDialog
-import com.mylearning.devplacement.utils.isNetworkAvailable
+import com.mylearning.devplacement.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -35,6 +33,8 @@ class UsersFragment : Fragment(), OnItemClickListener {
 
     private lateinit var loadingDialog: ProgressDialog
 
+    private lateinit var networkFailureDialog: NetworkFailureDialog
+
     private val viewModel: UserViewModel by viewModels()
 
     private val ui get() = _ui!!
@@ -43,16 +43,28 @@ class UsersFragment : Fragment(), OnItemClickListener {
 
     @ExperimentalCoroutinesApi
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_users, container, false)
         _ui = FragmentUsersBinding.inflate(inflater, container, false)
 
+        loadingDialog = ProgressDialog(requireActivity())
+
         //Check if network is available
         if (context?.let { isNetworkAvailable(it) } == false) {
+
+            networkFailureDialog = context?.let { NetworkFailureDialog(it) }!!
+            networkFailureDialog.showDialog()
+            loadingDialog.dismiss()
+            displayProgressBar(true)
             Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show()
+        } else {
+            displayProgressBar(false)
+            networkFailureDialog = context?.let { NetworkFailureDialog(it) }!!
+            networkFailureDialog.dismiss()
+            // networkFailureDialog.dismiss()
         }
 
 
@@ -60,25 +72,6 @@ class UsersFragment : Fragment(), OnItemClickListener {
 
         subscribeObservers()
         viewModel.setStateEvent(UserViewModel.MainStateEvent.GetUserEvent)
-
-
-        // observe list download
-//        viewModel.startDialogDownload.observe(requireActivity(), Observer { isDownloading ->
-//            if(!isDownloading) {
-//                loadingDialog = context?.let { ProgressDialog(it) }!!
-//                loadingDialog.showDialog()
-//            }
-//
-//        })
-
-        // observe when file is completely downloaded
-//        viewModel.completeDownload.observe(requireActivity(), Observer { isCompleted ->
-//            isCompleted?.let { result ->
-//                if (result) {
-//                    loadingDialog.dismiss()
-//                }
-//            }
-//        })
 
         return ui.root
     }
@@ -122,25 +115,24 @@ class UsersFragment : Fragment(), OnItemClickListener {
     // u can change this to animation
     private fun displayProgressBar(isDisplay: Boolean) {
         ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
+        ui.buttonRetry.visibility = if (isDisplay) View.VISIBLE else View.GONE
+        ui.networkItemTv.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
 
     // check for permission
     private fun checkPermissionAndStart() {
         if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                != PackageManager.PERMISSION_GRANTED
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
         ) {
             promptDialogPermission()
 
         } else {
             println("CHECKINGDATAEXIST")
             context?.let { viewModel.checkDataExist(it) }
-//            startDownload("https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download",
-//                requireActivity()
-//            )
             viewModel.grantAccess.value = true
         }
 
@@ -150,26 +142,22 @@ class UsersFragment : Fragment(), OnItemClickListener {
     private fun promptDialogPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_WRITE_STORAGE
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_WRITE_STORAGE
             )
         }
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_WRITE_STORAGE -> {
                 if ((grantResults.isNotEmpty() && permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Log.i("SEEE", "Called")
-//                        startDownload("https://drive.google.com/u/0/uc?id=1giBv3pK6qbOPo0Y02H-wjT9ULPksfBCm&export=download",
-//                            requireActivity()
-//                        )
                         context?.let { viewModel.checkDataExist(it) }
                         viewModel.grantAccess.value = true
                     }
@@ -186,8 +174,6 @@ class UsersFragment : Fragment(), OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("SEEE", "see all")
         context?.let { viewModel.checkDataExist(it) }
     }
 
@@ -201,7 +187,6 @@ class UsersFragment : Fragment(), OnItemClickListener {
         findNavController().navigate(action)
 
 
-
     }
 
     override fun onFilterIconClick(user: User) {
@@ -209,51 +194,6 @@ class UsersFragment : Fragment(), OnItemClickListener {
         findNavController().navigate(filterIcon)
     }
 
-
 }
 
 
-//    fun startDownload(
-//        url: String,
-//        activity: Activity
-//    ) {
-//        Thread {
-//            val fileUrl = URL(url)
-//            val connection = fileUrl.openConnection() as HttpURLConnection
-//            connection.doInput = true
-//            try {
-//                connection.connect()
-//                val inputStream = connection.inputStream
-//                val extStorageDirectory = activity.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
-//                val child = "CARS_OWNERS_.csv"
-//                val outFile = File(extStorageDirectory, child)
-//                val outputStream = FileOutputStream(outFile)
-//                try {
-//                    outputStream.use { output ->
-//                        val buffer = ByteArray(4 * 1024)
-//                        var byteCount = inputStream.read(buffer)
-//                        while (byteCount > 0) {
-//                            output.write(buffer, 0, byteCount)
-//                            byteCount = inputStream.read(buffer)
-//                        }
-//                        output.flush()
-//                        output.close()
-//                    }
-//                    activity.runOnUiThread {
-//                        Toast.makeText(activity, "SUCCESS", Toast.LENGTH_SHORT).show()
-//
-//                        Log.i("Suce", "Successsss")
-//                    }
-//                } catch (e: FileNotFoundException) {
-//                    activity.runOnUiThread {
-//                        Toast.makeText(activity, e.message.toString(), Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//
-//            } catch (e: Exception) {
-//                activity.runOnUiThread {
-//                    Toast.makeText(activity, "Exception caught", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }.start()
-//    }

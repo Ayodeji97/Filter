@@ -19,8 +19,6 @@ class MainRepository  constructor(
 ){
 
     suspend fun getUser () : Flow<DataState<List<User>>> = flow {
-        emit(DataState.Loading)
-        //delay(1000)
 
         try {
             val networkUsers = userRetrofit.getUsers()
@@ -31,6 +29,9 @@ class MainRepository  constructor(
 
             // retrieve all the user object
             val cachedUsers = userDao.getUsers()
+
+
+
              //emit to the ui
             emit(DataState.Success(cacheMapper.mapFromEntityList(cachedUsers)))
         } catch (e : Exception) {

@@ -1,17 +1,26 @@
 package com.mylearning.devplacement.utils
 
 import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
+
+
 object FileDownloader {
+
+
+
     fun downloadCsv(
             fileUrl: String,
             context: Context
     ) {
+
         Thread {
             val fileUrl = URL(fileUrl)
             val connection = fileUrl.openConnection() as HttpURLConnection
@@ -38,14 +47,19 @@ object FileDownloader {
                         output.flush()
                         output.close()
                     }
+
+
+
                 } catch (e: FileNotFoundException) {
                     println("Error File Not found")
+
 //                    context.runOnUiThread {
 //                        Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
 //                    }
                 }
             } catch (e: Exception) {
                 println("Error Second Exception")
+
                 //Handle Error in case where there's no internet connection and no profile image saved.
 //                context.runOnUiThread {
 //                    Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
