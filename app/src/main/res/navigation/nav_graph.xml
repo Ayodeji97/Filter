@@ -13,6 +13,7 @@
         >
         <argument
             android:name="filter"
+            app:nullable="true"
             app:argType="com.mylearning.devplacement.model.User" />
     </fragment>
     <fragment
