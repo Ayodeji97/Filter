@@ -130,7 +130,7 @@ class UsersFragment : Fragment(), OnItemClickListener {
         } else {
             println("CHECKINGDATAEXIST")
             context?.let { viewModel.checkDataExist(it) }
-            viewModel.grantAccess.value = true
+          // viewModel.grantAccess.value = true
         }
 
     }
@@ -157,7 +157,7 @@ class UsersFragment : Fragment(), OnItemClickListener {
                 if ((grantResults.isNotEmpty() && permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         context?.let { viewModel.checkDataExist(it) }
-                        viewModel.grantAccess.value = true
+                       //viewModel.grantAccess.value = true
                     }
                 } else {
                     promptDialogPermission()

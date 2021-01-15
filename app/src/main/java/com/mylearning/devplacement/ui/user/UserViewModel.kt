@@ -31,21 +31,10 @@ class UserViewModel @ViewModelInject constructor
             Utility.FOLDER
         )
     }
+    //val grantAccess = MutableLiveData<Boolean>()
 
 
-//
-//    private val _startDialogDownload = MutableLiveData<Boolean>()
-//    val startDialogDownload: LiveData<Boolean>
-//        get() = _startDialogDownload
-//
-//    private val _completeDownload = MutableLiveData<Boolean>()
-//    val completeDownload: LiveData<Boolean>
-//        get() = _completeDownload
-
-    val grantAccess = MutableLiveData<Boolean>()
-
-
-
+    // Function responsible for getting all user from the database
     @ExperimentalCoroutinesApi
     fun setStateEvent (mainStateEvent: MainStateEvent) {
         viewModelScope.launch {
@@ -63,71 +52,20 @@ class UserViewModel @ViewModelInject constructor
         }
     }
 
+    // check if the the csv file exist
     fun checkDataExist(context: Context) {
       FileDownloader.downloadCsv(Utility.DOWNLOAD_URL, context)
 
         if (!file.exists()) {
             println("CHECKING")
-           // _startDialogDownload.value = false
-
             FileDownloader.readCsv(context)
-              //startDownload(context)
         }
     }
 
+    // State class
     sealed class MainStateEvent {
-
         object GetUserEvent : MainStateEvent()
-
         object None : MainStateEvent()
     }
 
-
-    //  download
-//    private fun startDownload(context: Context): Int {
-//        var filePath =  Environment.getExternalStorageDirectory().absolutePath;
-//        Timber.i("Started")
-//        if (!file.exists()) file.mkdir()
-//
-//        return PRDownloader.download(
-//            Utility.DOWNLOAD_URL,
-//            filePath,
-//            CAR_OWNER_DATA
-//        )
-//            .build()
-//            .setOnStartOrResumeListener {
-//                Timber.i("Started")
-//                println(file)
-//                println(file.exists())
-//            }
-//            .setOnPauseListener {
-//                Timber.i("Paused")
-//            }
-//            .setOnCancelListener {
-//                Timber.i("Cancelled")
-//            }
-//            .setOnProgressListener { }
-//            .start(object : OnDownloadListener {
-//                override fun onDownloadComplete() {
-//                    Timber.i("Completed")
-//                    _completeDownload.value = true
-//                    grantAccess.value = true
-//                    println(file)
-//                }
-//
-//                override fun onError(error: com.downloader.Error?) {
-//                    Timber.i("Not Completed")
-//                    println(file.exists())
-//                    Timber.e(error?.serverErrorMessage)
-//                    _completeDownload.value = true
-//                    if (error != null) {
-////                        print(error.serverErrorMessage)
-////                        println(error.isServerError)
-////                        println(error.isConnectionError)
-////                        println(error.connectionException)
-//                        // println(error.responseCode)
-//                    }
-//                }
-//            })
-//    }
 }
