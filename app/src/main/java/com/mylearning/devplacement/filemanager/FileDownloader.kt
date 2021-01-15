@@ -1,9 +1,7 @@
-package com.mylearning.devplacement.utils
+package com.mylearning.devplacement.filemanager
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.mylearning.devplacement.utils.Utility
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -11,7 +9,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 
-
+/* */
 object FileDownloader {
 
 
@@ -27,7 +25,7 @@ object FileDownloader {
             try {
                 connection.connect()
                 val inputStream = connection.inputStream
-                val path = File(context.filesDir, "Owners${File.separator}")
+                val path = File(context.filesDir, "owners${File.separator}")
                 println("Owners${File.separator}")
                 if (!path.exists()) {
                     println("Owners${File.separator}")

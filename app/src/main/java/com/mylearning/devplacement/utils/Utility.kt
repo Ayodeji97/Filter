@@ -1,5 +1,6 @@
 package com.mylearning.devplacement.utils
 
+/* File responsible for storing storing storing csv file details */
 object Utility {
 
     const val FOLDER = "owners"

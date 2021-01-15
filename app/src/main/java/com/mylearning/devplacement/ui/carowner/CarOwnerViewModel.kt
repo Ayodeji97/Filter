@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mylearning.devplacement.model.CarOwnerList
 import com.mylearning.devplacement.model.User
-import com.mylearning.devplacement.ui.filter.FilterManager
-import com.mylearning.devplacement.utils.FileDownloader
+import com.mylearning.devplacement.filemanager.FilterManager
+import com.mylearning.devplacement.filemanager.FileDownloader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

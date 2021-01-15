@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import com.mylearning.devplacement.R
 
+/* Class responsible for showing network dialog while there is not network */
 class NetworkFailureDialog (context : Context) {
 
     private val dialog = Dialog(context!!)

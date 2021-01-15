@@ -5,19 +5,15 @@ import android.os.Environment
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.downloader.OnDownloadListener
-import com.downloader.PRDownloader
 import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.repository.MainRepository
 import com.mylearning.devplacement.utils.DataState
-import com.mylearning.devplacement.utils.FileDownloader
+import com.mylearning.devplacement.filemanager.FileDownloader
 import com.mylearning.devplacement.utils.Utility
-import com.mylearning.devplacement.utils.Utility.CAR_OWNER_DATA
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.File
 
 class UserViewModel @ViewModelInject constructor
