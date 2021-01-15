@@ -13,21 +13,16 @@ import com.mylearning.devplacement.R
 import com.mylearning.devplacement.adapter.CarOwnerAdapter
 import com.mylearning.devplacement.databinding.FragmentCarOwnersBinding
 import com.mylearning.devplacement.model.CarOwner
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CarOwnersFragment : Fragment(R.layout.fragment_car_owners) {
 
-   // private val carOwnersList = generateDummyData(100)
-
     private var _ui: FragmentCarOwnersBinding? = null
-
-    private lateinit var viewModel: CarOwnerViewModel
-
     private val ui get() = _ui!!
-
+    private lateinit var viewModel: CarOwnerViewModel
     private val args by navArgs<CarOwnersFragmentArgs>()
-
-    var filterList = listOf<CarOwner>()
-
+    private var filterList = listOf<CarOwner>()
     private val adapter = CarOwnerAdapter(filterList)
 
 
@@ -35,8 +30,6 @@ class CarOwnersFragment : Fragment(R.layout.fragment_car_owners) {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_car_owners, container, false)
 
         val user =  args.filter
         val factory = user?.let { CarOwnersViewModelFactory(it, requireContext()) }
@@ -45,27 +38,20 @@ class CarOwnersFragment : Fragment(R.layout.fragment_car_owners) {
         _ui = FragmentCarOwnersBinding.inflate(inflater, container, false)
 
         val adapter = adapter
-
-
         val recyclerView = ui.recyclerView
-
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         recyclerView.setHasFixedSize(true)
 
         viewModel.filterResult.observe(viewLifecycleOwner, { carOwnerList ->
             adapter.setCarList(carOwnerList)
         })
-
-
         return ui.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         ui.fragmentCarOwnerFilter.setOnClickListener {
             findNavController().navigate(R.id.usersFragment)
         }

@@ -20,18 +20,17 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UserDetailsFragment : Fragment() {
 
-   private var _ui : FragmentUserDetailsBinding? = null
+    private var _ui : FragmentUserDetailsBinding? = null
     private val ui get() = _ui!!
 
+    // arguments passed from the car list
     private val args by navArgs<UserDetailsFragmentArgs>()
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-      //  return inflater.inflate(R.layout.fragment_user_details, container, false)
         _ui = FragmentUserDetailsBinding.inflate(inflater, container, false)
 
+        // load user details to views
         ui.apply {
             val user = args.user
 
@@ -40,18 +39,12 @@ class UserDetailsFragment : Fragment() {
                     .error(R.drawable.ic_error)
                     .into(ui.userDetailsImageIv)
 
-
             ui.userDetailNameTv.text = user.name
             ui.userDetailDateCreateTv.text = user.date!!.substring(5, 16)
             ui.detailCardCountryTv.text = user.countries.toString()
             ui.detailCardColorTv.text = user.colors.toString()
 
         }
-
-
-
         return ui.root
     }
-
-
 }

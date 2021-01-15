@@ -41,9 +41,7 @@ class CarOwnerViewModel(private val data: User, private val context: Context) : 
             viewScope.launch {
                 val fileList = FilterManager.readFile(getCsv())
 
-               // _filterResult.value = fileList
-//
-//                println(fileList)
+                println(fileList)
                _filterResult.value = FilterManager.filterItem(fileList, data)
             }
 
@@ -51,6 +49,4 @@ class CarOwnerViewModel(private val data: User, private val context: Context) : 
         }
 
     }
-
-
 }
