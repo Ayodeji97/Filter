@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.mylearning.devplacement.R
 import com.mylearning.devplacement.databinding.FragmentUserDetailsBinding
+import com.mylearning.devplacement.utils.Colors
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,7 +44,7 @@ class UserDetailsFragment : Fragment() {
             ui.userDetailNameTv.text = user.name
             ui.userDetailDateCreateTv.text = user.date!!.substring(5, 16)
             ui.detailCardCountryTv.text = user.countries.toString()
-            ui.detailCardColorTv.text = user.countries.toString()
+            ui.detailCardColorTv.text = user.colors.toString()
 
         }
 

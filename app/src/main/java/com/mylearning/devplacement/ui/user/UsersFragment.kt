@@ -85,6 +85,9 @@ class UsersFragment : Fragment(), OnItemClickListener {
                     myList = dataState.data
 
                     val adapter = UsersAdapter(myList, this)
+                    if (myList.size > 1){
+                        networkFailureDialog.dismiss()
+                    }
                     ui.recyclerView.adapter = adapter
                     ui.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     adapter.notifyDataSetChanged()

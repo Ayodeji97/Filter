@@ -18,12 +18,26 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideBlogDb (@ApplicationContext context : Context) : UserDatabase {
-        return Room.databaseBuilder(
-            context,
-            UserDatabase::class.java,
-            UserDatabase.DATEBASE_NAME
-        ).fallbackToDestructiveMigration()
-            .build()
+
+
+     var INSTANCE: UserDatabase? = null
+
+        return INSTANCE ?: synchronized(this) {
+            val instance = Room.databaseBuilder(
+                context.applicationContext,
+                UserDatabase::class.java,
+                UserDatabase.DATEBASE_NAME
+            ).build()
+            INSTANCE = instance
+            // return instance
+            instance
+        }
+//        return Room.databaseBuilder(
+//            context,
+//            UserDatabase::class.java,
+//            UserDatabase.DATEBASE_NAME
+//        ).fallbackToDestructiveMigration()
+//            .build()
 
     }
 
