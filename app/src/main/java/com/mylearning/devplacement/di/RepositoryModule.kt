@@ -11,7 +11,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import javax.inject.Singleton
 
-
+/* Repository object for providing the dao, retrofit, cacheMapper and NetworkMapper  */
 @InstallIn(ApplicationComponent::class)
 @Module
 object RepositoryModule {

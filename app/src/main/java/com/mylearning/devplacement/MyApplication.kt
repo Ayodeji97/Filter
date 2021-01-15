@@ -7,7 +7,7 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-
+/* Project Application class */
 @HiltAndroidApp
 class MyApplication : Application() {
 

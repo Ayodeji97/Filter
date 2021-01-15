@@ -4,6 +4,9 @@ import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.EntityMapper
 import javax.inject.Inject
 
+/**
+ * This class is responsible for mapping the domain object to the network object
+ */
 class CacheMapper  @Inject constructor() : EntityMapper<UserCacheEntity, User> {
     override fun mapFromEntity(entity: UserCacheEntity): User {
         return User(
@@ -31,6 +34,7 @@ class CacheMapper  @Inject constructor() : EntityMapper<UserCacheEntity, User> {
 
     }
 
+    // function responsible for converting list of entities object to User object
     fun mapFromEntityList (entities : List<UserCacheEntity>) : List<User> {
         return entities.map { mapFromEntity(it) }
     }

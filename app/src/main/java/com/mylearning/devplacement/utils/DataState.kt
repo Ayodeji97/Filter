@@ -2,6 +2,7 @@ package com.mylearning.devplacement.utils
 
 import java.lang.Exception
 
+/* Sealed class responsible for different network state */
 sealed class DataState <out R> {
 
     data class Success <out T> (val data : T) : DataState<T>()

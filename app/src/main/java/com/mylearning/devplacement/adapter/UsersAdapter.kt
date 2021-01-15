@@ -8,7 +8,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.mylearning.devplacement.R
 import com.mylearning.devplacement.databinding.UserItemListBinding
 import com.mylearning.devplacement.model.User
-
+// user adapter
 class UsersAdapter (private val userList : List<User>, private val listener: OnItemClickListener ) : RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
    inner class UserViewHolder (private val binding: UserItemListBinding) : RecyclerView.ViewHolder(binding.root) {

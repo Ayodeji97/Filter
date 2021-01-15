@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.lang.Exception
-
+// Repository responsible for getting the network data and save to the room database
 class MainRepository  constructor(
     private val userDao: UserDao,
     private val userRetrofit: UserRetrofit,
@@ -29,19 +29,14 @@ class MainRepository  constructor(
             for (user in users) {
                 cacheMapper.mapToEntity(user)?.let { userDao.insert(it) }
             }
-
             // retrieve all the user object
             val cachedUsers = userDao.getUsers()
-
-
 
              //emit to the ui
             emit(DataState.Success(cacheMapper.mapFromEntityList(cachedUsers)))
         } catch (e : Exception) {
 //            emit(DataState.Error(e))
             val cachedUsers = userDao.getUsers()
-
-
 
             //emit to the ui
             emit(DataState.Success(cacheMapper.mapFromEntityList(cachedUsers)))

@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mylearning.devplacement.model.CarOwnerList
 import com.mylearning.devplacement.model.User
-import com.mylearning.devplacement.ui.filter.FilterManager
-import com.mylearning.devplacement.utils.FileDownloader
+import com.mylearning.devplacement.filemanager.FilterManager
+import com.mylearning.devplacement.filemanager.FileDownloader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,11 +15,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class CarOwnerViewModel(private val data: User, private val context: Context) : ViewModel() {
-
-    private fun getCsv(): File {
-        return FileDownloader.readCsv(context)
-    }
-
 
     private var viewModelJob = Job()
 
@@ -33,6 +28,10 @@ class CarOwnerViewModel(private val data: User, private val context: Context) : 
     val isDatabaseAvailable: LiveData<Boolean>
         get() = _isDatabaseAvailable
 
+    private fun getCsv(): File {
+        return FileDownloader.readCsv(context)
+    }
+
     init {
 
         if (!getCsv().exists()) {
@@ -41,9 +40,7 @@ class CarOwnerViewModel(private val data: User, private val context: Context) : 
             viewScope.launch {
                 val fileList = FilterManager.readFile(getCsv())
 
-               // _filterResult.value = fileList
-//
-//                println(fileList)
+                println(fileList)
                _filterResult.value = FilterManager.filterItem(fileList, data)
             }
 
@@ -51,6 +48,4 @@ class CarOwnerViewModel(private val data: User, private val context: Context) : 
         }
 
     }
-
-
 }

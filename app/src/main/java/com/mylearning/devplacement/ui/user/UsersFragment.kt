@@ -22,23 +22,17 @@ import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-
+/* permission constant to write to file storage */
 private const val MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1
 
 @AndroidEntryPoint
 class UsersFragment : Fragment(), OnItemClickListener {
-    private val TAG: String = "AppDebug"
+
     private var _ui: FragmentUsersBinding? = null
-
-
-    private lateinit var loadingDialog: ProgressDialog
-
-    private lateinit var networkFailureDialog: NetworkFailureDialog
-
-    private val viewModel: UserViewModel by viewModels()
-
     private val ui get() = _ui!!
-    var myList = listOf<User>()
+    private lateinit var networkFailureDialog: NetworkFailureDialog
+    private val viewModel: UserViewModel by viewModels()
+    private var userList = listOf<User>()
 
 
     @ExperimentalCoroutinesApi
@@ -46,62 +40,61 @@ class UsersFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_users, container, false)
         _ui = FragmentUsersBinding.inflate(inflater, container, false)
 
-        loadingDialog = ProgressDialog(requireActivity())
-
-        //Check if network is available
-        if (context?.let { isNetworkAvailable(it) } == false) {
-
-            networkFailureDialog = context?.let { NetworkFailureDialog(it) }!!
-            networkFailureDialog.showDialog()
-            loadingDialog.dismiss()
-            displayProgressBar(true)
-            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show()
-        } else {
-            displayProgressBar(false)
-            networkFailureDialog = context?.let { NetworkFailureDialog(it) }!!
-            networkFailureDialog.dismiss()
-            // networkFailureDialog.dismiss()
-        }
-
-
         checkPermissionAndStart()
-
+        checkInternetConnection()
         subscribeObservers()
+
         viewModel.setStateEvent(UserViewModel.MainStateEvent.GetUserEvent)
 
         return ui.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // check if csv exist on check
+        context?.let { viewModel.checkDataExist(it) }
+    }
+
+    // on click of an item in the list, navigate to the detail screen
+    override fun onItemClick(user: User) {
+        val action = UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(user)
+        findNavController().navigate(action)
+    }
+
+    // on click on a filter icon navigate to the car owner list and display the filter items
+    override fun onFilterIconClick(user: User) {
+        val filterIcon = UsersFragmentDirections.actionUsersFragmentToCarOwnersFragment(user)
+        findNavController().navigate(filterIcon)
+    }
+
+
+    // Function responsible for observing the network state and display user list on the screen
     private fun subscribeObservers() {
         viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             when (dataState) {
 
                 is DataState.Success<List<User>> -> {
                     displayProgressBar(false)
-                    myList = dataState.data
+                    userList = dataState.data
+                    val adapter = UsersAdapter(userList, this)
 
-                    val adapter = UsersAdapter(myList, this)
-                    if (myList.size > 1){
+                    if (userList.size > 1){
                         networkFailureDialog.dismiss()
                     }
                     ui.recyclerView.adapter = adapter
                     ui.recyclerView.layoutManager = LinearLayoutManager(requireContext())
                     adapter.notifyDataSetChanged()
-                    //appendUserTitle (dataState.data)
+
                 }
 
                 is DataState.Error -> {
                     displayProgressBar(false)
                     displayErrorMessage(dataState.exception.message)
-
                     println("ERROR MESSAGE")
 
                 }
-
                 is DataState.Loading -> {
                     displayProgressBar(true)
                 }
@@ -109,6 +102,7 @@ class UsersFragment : Fragment(), OnItemClickListener {
         })
     }
 
+    /* display error function */
     private fun displayErrorMessage(message: String?) {
         if (message != null) {
             ui.text.text = message
@@ -117,15 +111,13 @@ class UsersFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    // u can change this to animation
+    /* display progress bar */
     private fun displayProgressBar(isDisplay: Boolean) {
         ui.progressBar.visibility = if (isDisplay) View.VISIBLE else View.GONE
-        ui.buttonRetry.visibility = if (isDisplay) View.VISIBLE else View.GONE
-        ui.networkItemTv.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
 
-    // check for permission
+    // function to check for permission
     private fun checkPermissionAndStart() {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -138,12 +130,12 @@ class UsersFragment : Fragment(), OnItemClickListener {
         } else {
             println("CHECKINGDATAEXIST")
             context?.let { viewModel.checkDataExist(it) }
-            viewModel.grantAccess.value = true
+          // viewModel.grantAccess.value = true
         }
 
     }
 
-
+    // function to display permission dialog
     private fun promptDialogPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(
@@ -153,6 +145,7 @@ class UsersFragment : Fragment(), OnItemClickListener {
         }
     }
 
+    // function to take action base on user permission request response
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -164,39 +157,34 @@ class UsersFragment : Fragment(), OnItemClickListener {
                 if ((grantResults.isNotEmpty() && permissions[0] == Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                         context?.let { viewModel.checkDataExist(it) }
-                        viewModel.grantAccess.value = true
+                       //viewModel.grantAccess.value = true
                     }
                 } else {
                     promptDialogPermission()
                 }
 
             }
-
-
         }
     }
 
+    // check for internet connection
+    private fun checkInternetConnection () {
+        if (context?.let { isNetworkAvailable(it) } == false) {
+            networkFailureDialog = context?.let { NetworkFailureDialog(it) }!!
+            networkFailureDialog.showDialog()
+            displayProgressBar(true)
+            Toast.makeText(context, "No internet connection", Toast.LENGTH_LONG).show()
+        } else {
+            displayProgressBar(false)
+            networkFailureDialog = context?.let { NetworkFailureDialog(it) }!!
+            networkFailureDialog.dismiss()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        context?.let { viewModel.checkDataExist(it) }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _ui = null
-    }
-
-    override fun onItemClick(user: User) {
-        val action = UsersFragmentDirections.actionUsersFragmentToUserDetailsFragment(user)
-        findNavController().navigate(action)
-
-
-    }
-
-    override fun onFilterIconClick(user: User) {
-        val filterIcon = UsersFragmentDirections.actionUsersFragmentToCarOwnersFragment(user)
-        findNavController().navigate(filterIcon)
     }
 
 }

@@ -11,7 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.mylearning.devplacement.R
 import com.mylearning.devplacement.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-
+/* Main activity */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -22,17 +22,15 @@ class MainActivity : AppCompatActivity() {
         ui = ActivityMainBinding.inflate(layoutInflater)
 
         setUpViews()
-
         return setContentView(ui.root)
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
+    /* Function responsible for controlling the app bar title and navigations */
     private fun setUpViews () {
-
         // find the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
 
@@ -40,16 +38,6 @@ class MainActivity : AppCompatActivity() {
 
         var appConfiguration = AppBarConfiguration(navController.graph)
 
-        // setting nav controller with bottom navigation view
-       // ui.bottomNavView.setupWithNavController(navController)
-
-//        var appConfiguration = AppBarConfiguration(
-//            topLevelDestinationIds = setOf(
-//                    R.id.usersFragment,
-//                    R.id.carOwnersFragment
-//
-//            )
-//        )
         // Setting Up ActionBar with Navigation Controller
         setupActionBarWithNavController(navController, appConfiguration)
 
