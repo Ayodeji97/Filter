@@ -1,4 +1,5 @@
 ![Build](https://github.com/Ayodeji97/devPlacement/workflows/Build/badge.svg)
+![CI](https://github.com/Ayodeji97/devPlacement/workflows/CI/badge.svg)
 
 ## About the project
 
