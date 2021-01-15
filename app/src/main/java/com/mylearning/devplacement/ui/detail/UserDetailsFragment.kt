@@ -40,9 +40,11 @@ class UserDetailsFragment : Fragment() {
                     .into(ui.userDetailsImageIv)
 
             ui.userDetailNameTv.text = user.name
-            ui.userDetailDateCreateTv.text = user.date!!.substring(5, 16)
-            ui.detailCardCountryTv.text = user.countries.toString()
-            ui.detailCardColorTv.text = user.colors.toString()
+            ui.detailCardDateCreatedTv.text = user.date!!.substring(5, 16)
+            ui.userDetailGenderTv.text = user.gender
+            ui.detailCardCountryTv.text = user.countries?.colors.toString()
+            ui.detailCardColorTv.text = user.colors?.colors.toString()
+
 
         }
         return ui.root

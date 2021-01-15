@@ -24,6 +24,7 @@ class CarOwnerAdapter (private var carList : List<CarOwner>) : RecyclerView.Adap
                 carOwnerEmailAddressTv.text = carOwner.email
                 carOwnerBioTv.text = carOwner.bio
                 carOwnerJobTv.text = carOwner.jobTitle
+                carOwnerBrandColorVw.text = carOwner.carColor
             }
         }
 
