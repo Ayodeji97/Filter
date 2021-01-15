@@ -1,7 +1,7 @@
 package com.mylearning.devplacement.model
 
 typealias CarOwnerList = ArrayList<CarOwner>
-
+// car owner list data class for csv
 data class CarOwner(
         val id: Long,
         val image: Int,

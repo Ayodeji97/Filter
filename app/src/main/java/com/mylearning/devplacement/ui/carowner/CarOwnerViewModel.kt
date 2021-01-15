@@ -16,11 +16,6 @@ import java.io.File
 
 class CarOwnerViewModel(private val data: User, private val context: Context) : ViewModel() {
 
-    private fun getCsv(): File {
-        return FileDownloader.readCsv(context)
-    }
-
-
     private var viewModelJob = Job()
 
     private var viewScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -32,6 +27,10 @@ class CarOwnerViewModel(private val data: User, private val context: Context) : 
     private val _isDatabaseAvailable = MutableLiveData<Boolean>()
     val isDatabaseAvailable: LiveData<Boolean>
         get() = _isDatabaseAvailable
+
+    private fun getCsv(): File {
+        return FileDownloader.readCsv(context)
+    }
 
     init {
 

@@ -7,6 +7,7 @@ import com.mylearning.devplacement.R
 import com.mylearning.devplacement.databinding.CarOwnerListItemBinding
 import com.mylearning.devplacement.model.CarOwner
 
+// car adapter
 class CarOwnerAdapter (private var carList : List<CarOwner>) : RecyclerView.Adapter <CarOwnerAdapter.CarOwnerViewHolder> () {
 
     class CarOwnerViewHolder private constructor (private val binding: CarOwnerListItemBinding) : RecyclerView.ViewHolder(binding.root) {

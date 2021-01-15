@@ -10,7 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
-
+// Room module for providing database and dao
 @InstallIn (ApplicationComponent::class)
 @Module
 object RoomModule {
@@ -18,7 +18,6 @@ object RoomModule {
     @Singleton
     @Provides
     fun provideBlogDb (@ApplicationContext context : Context) : UserDatabase {
-
 
      var INSTANCE: UserDatabase? = null
 
@@ -32,12 +31,6 @@ object RoomModule {
             // return instance
             instance
         }
-//        return Room.databaseBuilder(
-//            context,
-//            UserDatabase::class.java,
-//            UserDatabase.DATEBASE_NAME
-//        ).fallbackToDestructiveMigration()
-//            .build()
 
     }
 

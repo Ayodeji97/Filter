@@ -2,7 +2,7 @@ package com.mylearning.devplacement.utils
 
 import androidx.room.TypeConverter
 import com.mylearning.devplacement.room.Colors
-import com.mylearning.devplacement.room.Countries
+
 /* Class responsible for converting a list of string to a string */
 
 class ColorConverters {

@@ -2,7 +2,7 @@ package com.mylearning.devplacement.retrofit
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-
+// data class of network entity from the end point
 data class UserNetworkEntity(
     @SerializedName("id")
     @Expose

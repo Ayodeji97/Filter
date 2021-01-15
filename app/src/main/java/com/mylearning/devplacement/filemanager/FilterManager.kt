@@ -28,6 +28,7 @@ import java.io.FileReader
 
 object FilterManager {
 
+    // function to read csv file
     suspend fun readFile (absoluteFile : File) : CarOwnerList {
 
         val result = CarOwnerList()
@@ -66,12 +67,10 @@ object FilterManager {
             }
         }
 
-
-
         return result
     }
 
-
+    /* function to filter car list from csv file with the user object from the endpoint */
     @SuppressLint("DefaultLocale")
     suspend fun filterItem (carOwnerList: CarOwnerList, user: User) : CarOwnerList {
 

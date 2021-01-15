@@ -9,7 +9,7 @@ import com.mylearning.devplacement.model.User
 import com.mylearning.devplacement.utils.ColorConverters
 
 import kotlinx.coroutines.CoroutineScope
-
+// Database
 @Database(entities = arrayOf(UserCacheEntity::class), version = 1, exportSchema = false)
 @TypeConverters(*arrayOf(ColorConverters::class))
 abstract class UserDatabase : RoomDatabase () {

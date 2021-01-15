@@ -1,6 +1,7 @@
 package com.mylearning.devplacement.filemanager
 
 import android.content.Context
+import android.widget.Toast
 import com.mylearning.devplacement.utils.Utility
 import java.io.File
 import java.io.FileNotFoundException
@@ -12,7 +13,7 @@ import java.net.URL
 /* */
 object FileDownloader {
 
-
+// function to download csv
     fun downloadCsv(
             fileUrl: String,
             context: Context
@@ -45,29 +46,18 @@ object FileDownloader {
                         output.close()
                     }
 
-
-
                 } catch (e: FileNotFoundException) {
                     println("Error File Not found")
 
-//                    context.runOnUiThread {
-//                        Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
-//                    }
                 }
             } catch (e: Exception) {
                 println("Error Second Exception")
-
-                //Handle Error in case where there's no internet connection and no profile image saved.
-//                context.runOnUiThread {
-//                    Toast.makeText(context, "Error occurred", Toast.LENGTH_SHORT).show()
-//                    Toast.makeText(context, e.message.toString(), Toast.LENGTH_SHORT).show()
-//                }
             }
         }.start()
 
     }
 
-
+    // function to read csv file
     fun readCsv(context: Context): File {
         val path = File(context.filesDir, "Owners${File.separator}")
         return File(path, Utility.CAR_OWNER_DATA)

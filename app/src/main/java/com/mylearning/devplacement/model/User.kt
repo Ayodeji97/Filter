@@ -5,7 +5,6 @@ import com.mylearning.devplacement.room.Colors
 import java.io.Serializable
 
 // domain model
-
 data class User(
         var id: String,
         var name: String?,
