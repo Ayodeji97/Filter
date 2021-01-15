@@ -9,7 +9,7 @@ import java.util.concurrent.Flow
 @Dao
 interface UserDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert (userCacheEntity: UserCacheEntity) : Long
 
     @Query("SELECT * FROM accounts")
