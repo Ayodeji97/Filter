@@ -21,7 +21,7 @@ This project was build with
 * [Kotlin](https://kotlinlang.org/docs/reference/)
 * [Android](https://developer.android.com/docs)
 
-## Contributor
+## Contributors
 * Bond [Bond](https://github.com/bondz)
 * Abdulsaraq [Abdulsaraq](https://github.com/darothub)
 * Waheed [Waheed](https://github.com/wptechprodigy)
