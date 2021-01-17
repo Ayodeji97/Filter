@@ -7,6 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="6dp"
     android:elevation="6dp"
+    android:id="@+id/parent_card_view"
     android:layout_margin="6dp"
     android:background="@android:color/holo_blue_dark">
 
