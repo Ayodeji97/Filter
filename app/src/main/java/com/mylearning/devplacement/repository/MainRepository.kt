@@ -25,7 +25,10 @@ class MainRepository  constructor(
         try {
             val networkUsers = userRetrofit.getUsers()
             val users = networkMapper.mapFromEntityList(networkUsers)
+
             Log.d("DATAGOTTEN", "${users}")
+
+
             for (user in users) {
                 cacheMapper.mapToEntity(user)?.let { userDao.insert(it) }
             }
